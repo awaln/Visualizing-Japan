@@ -1,0 +1,56 @@
+#vjxMain{
+	height:270px; /*Makes it scale nicely but might be obnoxious later. Percentages seem to work?*/
+	width:auto;  /*Smallest width edX seems to allow is 667px, which is strange.*/
+	font-family:'open sans';
+	position:fixed;
+	z-index:20;
+	background-color:white;
+	top:0px;
+}
+#vjxContent{
+	height:auto; /*Makes it scale nicely but might be obnoxious later. Percentages seem to work?*/
+	width:auto;  /*Smallest width edX seems to allow is 667px, which is strange.*/
+	font-family:'open sans';
+	position:absolute;
+	top:340px;
+}
+.vjxContainer{
+	position:relative;
+	display:inline-block;
+	width:200px;
+	height:200px;
+	margin:5px 5px 5px 5px;
+}
+.vjxContainer > img{
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	margin:auto;
+}
+#bss,#hibiya,#shiseido{
+	width:25%;
+	height:200px;
+	display:inline-block;
+	float:left;
+	margin:5px 5px 5px 5px;
+	padding:5px 5px 5px 5px;
+	text-align:center;
+}
+#bss{
+	border:2px dashed black;
+}
+#hibiya{
+	border:2px dashed green;
+}
+#shiseido{
+	border:2px dashed #ff5555;
+}
+#bss > img,#hibiya > img,#shiseido > img{
+	display:inline-block;
+	float:left;
+	max-width:60px;
+	max-height:40px;
+	margin:5px 5px 5px 5px;
+}

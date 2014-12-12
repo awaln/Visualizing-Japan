@@ -1,0 +1,40 @@
+.abbott, .portman, .morrow, .williams, .oliver, .heine, .adams, .brown, .used{
+	display:table-cell;
+	float:left;
+	height:200px;
+	width:150px;
+	margin:5px 5px 5px 5px;
+	overflow:hidden;
+	position:relative;
+}
+.abbott:hover, .portman:hover, .morrow:hover, .williams:hover, .oliver:hover, .heine:hover, .adams:hover, .brown:hover{
+	cursor:pointer;
+	margin:2px 2px 2px 2px;
+	border:3px solid #01A0E3;
+}
+#vjxMain{
+	height:auto; /*Makes it scale nicely but might be obnoxious later. Percentages seem to work?*/
+	width:auto;  /*Smallest width edX seems to allow is 667px, which is strange.*/
+	text-align:center;
+	font-family:'open sans';
+}
+#newGame{
+	display:block;
+	margin:auto;
+	height:auto;
+	width:150px;
+	font-weight:bold;
+	font-size:24px;
+	color:white;
+	border-radius:2px;
+	background-color:#01A0E3; /*edX blue!*/
+	cursor:pointer;
+}
+#hints{
+	height:25px;
+	margin:auto;
+}
+#findIt{
+	height:25px;
+	margin:auto;
+}

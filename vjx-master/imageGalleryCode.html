@@ -1,0 +1,195 @@
+<p>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/static/jquery.media.js"></script>
+	<script>// <![CDATA[
+		function loadXMLDoc(docname){
+			var xmlhttp;
+			if (window.XMLHttpRequest){
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+			  	xmlhttp=new XMLHttpRequest();
+			}
+			else{
+				// code for IE6, IE5
+			  	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			    	document.getElementById("vjx_main").innerHTML=xmlhttp.responseText;
+			    }
+			}
+			xmlhttp.open("GET",docname,true);
+			xmlhttp.send();
+		}
+		$(document).ready(function(){
+			$("#riot_drop").hide();
+			$("#shiseido_drop").hide();
+			$("#bss").click(function(){
+				$("#shiseido_drop").hide();
+				$("#riot_drop").hide();
+				$("#vjx_main").load("/static/comingSoon.txt");
+			});
+			$("#riots").click(function(){
+				$("#riot_drop").toggle();
+				$("#shiseido_drop").hide();
+			});
+			$("#shiseido").click(function(){
+				$("#shiseido_drop").toggle();
+				$("#riot_drop").hide();
+			});
+			$(".vjx_container").live('click',function(e){
+				e.preventDefault();
+				var image_href = $(this).attr("href");
+				$('#lightbox').remove();
+				//create HTML markup for lightbox window
+			    var lightbox = 
+			    '<div id="lightbox">' +
+			        '<p>Click to close</p>' +
+			        '<div id="content">' + //insert clicked link's href into img src
+			            '<img src="' + image_href +'" />' +
+			        '</div>' +    
+			    '</div>';
+			    //insert lightbox HTML into page
+		    	$('.vjx_data').append(lightbox);
+		    	$('#lightbox').live('click', function() {
+					$('#lightbox').remove();
+				});
+		    });
+		});
+// ]]></script>
+	<style>
+		#bss, #riots, #shiseido{
+			width:33%;
+			float:left;
+			text-align:center;
+			cursor:pointer;
+		}
+		#bss:hover, #riots:hover, #shiseido:hover{
+			color:#aaaaaa;
+		}
+		#bss{
+			text-align:left;
+		}
+		#shiseido{
+			text-align:right;
+		}
+		#shiseido_drop{
+			text-align:right;
+			line-height:110%;
+		}
+		#riot_drop{
+			text-align:center;
+			line-height:110%;
+		}
+		#vjx_main{
+			text-align:center;
+		}
+		.vjx_container{
+			display:inline-block;
+			float:left;
+			height:200px;
+			width:200px;
+			margin:10px 5px 10px 5px;
+			position:relative;
+			max-width:100%;
+			max-height:100%;
+			text-align:left;
+			cursor:pointer;
+		}
+		.vjx_thumbnail{
+			position:absolute;
+			bottom:20px;
+			max-width:200px;
+			max-height:180px;
+		}
+		.vjx_link{
+			position:absolute;
+			font-size:12px;
+			bottom:0px;
+			text-align:left;
+		}
+		#lightbox {
+		    position:absolute; /* keeps the lightbox window in the current viewport */
+		    top:30px; 
+		    left:0; 
+		    width:100%; 
+		    height:100%; 
+		    background:url('/static/overlay.png') repeat; 
+		    text-align:center;
+		}
+		#lightbox p {
+		    text-align:right; 
+		    color:#ffffff;
+		    height:20px; 
+		    margin-right:20px; 
+		    font-size:12px; 
+		    background:url('/static/overlay.png') repeat;
+			}
+		#shiseido_drop div:hover, #riot_drop div:hover{
+			cursor:pointer;
+			color:#aaaaaa;
+        }
+	</style>
+</p>
+<div id="vjx_sidebar">
+	<h2 id="bss">
+		Black Ships &amp; Samurai
+	</h2>
+	<h2 id="riots">
+		Social Protest in Imperial Japan
+	</h2>
+	<h2 id="shiseido">
+		Modernity in Interwar Japan
+	</h2>
+</div>
+<div id="riot_drop">
+	<div id="tokyo_riot" onclick="loadXMLDoc('/static/tokyoriothtml.txt')";>
+		<em>The Tokyo Riot Graphic:</em> Complete Issue
+	</div>
+	<div id="japanese_graphic">
+		<em>The Japanese Graphic:</em> Selected Covers
+	</div>
+</div>
+<div id="shiseido_drop">
+	<div id="ad1">
+		Ads &amp; Posters: 1875-1941
+	</div>
+	<div id="ad2">
+		Ads &amp; Posters: 1945-1960
+	</div>
+	<div id="chain">
+		<em>Chain Store:</em> 1927-1941
+	</div>
+	<div id="geppo">
+		<em>Shiseido Geppō:</em> 1924-1931
+	</div>
+	<div id="graph">
+		<em>Shiseido Graph:</em> 1933-1937
+	</div>
+	<div id="covers">
+		<em>Hanatsubaki</em> Covers: 1936-1940
+	</div>
+	<div id="postcards">
+		Postcards, etc.
+	</div>
+	<div id="camellia">
+		Camellia Club
+	</div>
+	<div id="stores">
+		Stores &amp; Buildings
+	</div>
+	<div id="barrack">
+		Barrack Design
+	</div>
+	<div id="misc1">
+		Miscellaneous (sh05)
+	</div>
+	<div id="misc2">
+		Miscellaneous (sh06)
+	</div>
+	<div id="film">
+		Film &amp; Video
+	</div>
+</div>
+<div id="vjx_main">
+	Choose a Gallery to View (Psst. Only Social Protests > Tokyo Riot is up right now).
+</div>

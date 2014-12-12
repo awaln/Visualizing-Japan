@@ -1,0 +1,183 @@
+<p>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/static/jquery.media.js"></script>
+	<script>// <![CDATA[
+		$(document).ready(function(){
+			$('.vjx_pdf').hide();
+			$('#bss_drop').hide();
+			$("#riot_drop").hide();
+			$("#shiseido_drop").hide();
+
+			$("#bss").click(function(){
+				$("#bss_drop").toggle();
+				$("#bss_drop .vjx_link").remove();
+			});
+			$("#riots").click(function(){
+				$("#riot_drop").toggle();
+				$("#riot_drop .vjx_link").remove();
+			});
+			$("#shiseido").click(function(){
+				$("#shiseido_drop").toggle();
+				$("#shiseido_drop .vjx_link").remove();
+			});
+			$("#bss_drop div, #riot_drop div, #shiseido_drop div").click(function(e){
+				e.preventDefault;
+				$("#vjx_main").empty();
+				$(this).children(".vjx_link").remove();
+				var image_href = $(this).attr("href");
+				var pdf =
+				    '<object class="vjx_pdf" data=' + image_href + '></object>';
+				var download =
+					"<a class='vjx_link' href='" + image_href + "'>Download</a>";
+				$("#vjx_main").append(pdf);
+				$(this).append(download);
+			});
+		});
+// ]]></script>
+	<style>
+		.vjx_link{
+			float:right;
+		}
+		.vjx_pdf{
+			height:800px;
+			width:100%;
+		}
+		#bss, #riots, #shiseido{
+			text-align:left;
+			cursor:pointer;
+		}
+		#bss:hover, #riots:hover, #shiseido:hover{
+			color:#aaaaaa;
+		}
+		#shiseido_drop, #riot_drop, #bss_drop{
+			text-align:left;
+		}
+		#vjx_main{
+			float:right;
+			display:inline-block;
+			text-align:left;
+			width:75%;
+		}
+		#shiseido_drop div:hover, #riot_drop div:hover, #bss_drop div:hover{
+			cursor:pointer;
+			color:#aaaaaa;
+        }
+        #vjx_sidebar{
+        	float:left;
+        	width:24%;
+        }
+	</style>
+</p>
+<div id="vjx_sidebar">
+	<div class="vjx_side">
+		<h2 id="bss">Black Ships &amp; Samurai</h2>
+		<div id="bss_drop">
+			<div id="bss_0" href="/static/bss_essay.pdf">
+				Full Essay
+			</div>
+			<p style="font-size:8px"></p>
+			<div id="bss_1" href="/static/bss_essay_01.pdf">
+				Introduction
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_2" href="/static/bss_essay_02.pdf">
+				Perry
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_3" href="/static/bss_essay_03.pdf">
+				Black Ships
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_4" href="/static/bss_essay_04.pdf">
+				Facing "East"
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_5" href="/static/bss_essay_05.pdf">
+				Facing "West"
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_6" href="/static/bss_essay_06.pdf">
+				Portraits
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_7" href="/static/bss_essay_07.pdf">
+				Gifts
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_8" href="/static/bss_essay_08.pdf">
+				Nature
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="bss_9" href="/static/bss_essay_09.pdf">
+				Sources
+			</div>
+			<p></p>
+		</div>
+	</div>
+	<div class="vjx_side">
+		<h2 id="riots">Social Protest in Imperial Japan</h2>
+		<div id="riot_drop">
+			<div id="riot_0" href="/static/trg_essay.pdf">
+				Full Essay
+			</div>
+			<p style="font-size:8px"></p>
+			<div id="riot_1" href="/static/trg_essay_01.pdf">
+				Making News<br>Graphic
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="riot_2" href="/static/trg_essay_02.pdf">
+				Challenging<br>the State
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="riot_3" href="/static/trg_essay_03.pdf">
+				Identifying<br>"the People"
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="riot_4" href="/static/trg_essay_04.pdf">
+				Democracy<br>&amp; the Crowd
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="riot_5" href="/static/trg_essay_05.pdf">
+				Protest &amp; Profits
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="riot_6" href="/static/trg_essay_06.pdf">
+				Sources &amp; Credits
+			</div>
+			<p></p>
+		</div>
+	</div>
+	<div class="vjx_side">
+		<h2 id="shiseido">Modernity in Interwar Japan</h2>
+		<div id="shiseido_drop">
+			<div id="riot_0" href="/static/sh_essay.pdf">
+				Full Essay
+			</div>
+			<p style="font-size:8px"></p>
+			<div id="sh_1" href="/static/sh_essay_01.pdf">
+				Introduction
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="sh_2" href="/static/sh_essay_02.pdf">
+				Cosmopolitan<br>Glamour
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="sh_3" href="/static/sh_essay_03.pdf">
+				Marketing Beauty
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="sh_4" href="/static/sh_essay_04.pdf">
+				Luxury &amp; Thrift<br>in Wartime
+			</div>
+			<p style="font-size:2px"></p>
+			<div id="sh_5" href="/static/sh_essay_05.pdf">
+				Sources,<br>Resources, Credits
+			</div>
+			<p></p>
+		</div>
+	</div>
+</div>
+
+<div id="vjx_main">
+	Choose a section from the sidebar.
+</div>

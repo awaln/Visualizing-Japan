@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<hmtl>
+	<head>
+		<link rel="stylesheet" type="text/css" href="bsstimeline.css"/>
+	    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+	</head>
+	<body>
+		<div id='vjxDragbox'> <!-- Float draggable div's with zoom and album click-through here. -->
+		</div>
+		<div id='vjxDropbox'> <!-- Drag to locations in here. -->
+			<div id='timeline'></div>
+
+			<div class='dot' style='top:5px; left:228px'></div>
+			<div style='position:absolute; height:20px; width:5px; top:5px; left:250px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:12px; left:230px; background-color:red'></div>
+			<p id='data1'><strong>1543:</strong> First Europeans arrive in Japan [no image]</p>
+
+			<div class='dot' style='top:30px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:5px; left:213px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:37px; left:213px; background-color:red'></div>
+			<div id='drop7' class='vjxdrop'>
+				<p><strong>1549:</strong> First Western missionaries begin to proselytize
+				</p>
+			</div>
+
+			<div class='dot' style='top:100px; left:228px'></div>
+			<div style='position:absolute; height:20px; width:5px; top:100px; left:250px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:107px; left:230px; background-color:red'></div>
+			<p id='data2'><strong>1603:</strong> Tokugawa shogunate consolidates control over Japan [no image]</p>
+
+			<div class='dot' style='top:230px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:175px; left:258px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:237px; left:243px; background-color:red'></div>
+			<div id='drop2' class='vjxdrop'>
+				<p><strong>1639:</strong> Final seclusion edicts expel all but the Dutch, and ban Christianity
+				</p>
+			</div>
+
+			<div class='dot' style='top:300px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:220px; left:213px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:307px; left:213px; background-color:red'></div>
+			<div id='drop4' class='vjxdrop'>
+				<p><strong>17th-18th centuries:</strong> The Dutch on Dejima provide a window between the West and Japan
+				</p>
+			</div>
+
+			<div class='dot' style='top:450px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:390px; left:258px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:457px; left:243px; background-color:red'></div>
+			<div id='drop3' class='vjxdrop'>
+				<p><strong>c. 1720:</strong> Seclusion promotes some fanciful representations of people in foreign lands
+				</p>
+			</div>
+
+			<div class='dot' style='top:550px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:435px; left:213px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:557px; left:213px; background-color:red'></div>
+			<div id='drop1' class='vjxdrop'>
+				<p><strong>Early 19th century:</strong> Whaling ships journey further across the Pacific
+				</p>
+			</div>
+
+			<div class='dot' style='top:608px; left:228px'></div>
+			<div style='position:absolute; height:20px; width:5px; top:608px; left:250px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:615px; left:230px; background-color:red'></div>
+			<p id='data3'><strong>1837:</strong> The <em>Morrison</em> attempts to land in Japan to engage in missionary activity, but is repelled [no image]</p>
+
+			<div class='dot' style='top:650px; left:228px'></div>
+			<div style='position:absolute; height:20px; width:5px; top:650px; left:220px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:657px; left:220px; background-color:red'></div>
+			<p id='data4'><strong>1839-42:</strong> Opium War in China</p>
+
+			<div class='dot' style='top:730px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:700px; left:213px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:737px; left:213px; background-color:red'></div>
+			<div id='drop5' class='vjxdrop'>
+				<p><strong>1851:</strong> Japanese castaway Jon Manjir&#333; returns to Japan with tales of America
+				</p>
+			</div>
+
+			<div class='dot' style='top:807px; left:228px'></div>
+			<div style='position:absolute; height:204px; width:5px; top:700px; left:258px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:814px; left:243px; background-color:red'></div>
+			<div id='drop6' class='vjxdrop'>
+				<p><strong>1853:</strong> Commodore Perry arrives in his Black Ships
+				</p>
+			</div>
+
+			<div class='dot' style='top:914px; left:228px'></div>
+			<div style='position:absolute; height:20px; width:5px; top:913px; left:250px; background-color:red'></div>
+			<div style='position:absolute; height:5px; width:20px; top:920px; left:230px; background-color:red'></div>
+			<p id='data5'><strong>1854:</strong> Commodore Perry returns to Japan, and signs the Treaty of Kanagawa with the shogunate</p>
+			
+			</div>
+		</div>
+		<script src="jschannel.js"></script>
+	    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+	    <script src="bsstimeline.js" defer='defer'></script>
+	</body>
+</html>

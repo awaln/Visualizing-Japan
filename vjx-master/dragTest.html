@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<hmtl>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+		<script>// <![CDATA[
+			function updateZoom(zoomLevel){ //master zoom for the page, affects everything. All images are divs with background-image. It makes the hover highlight possible with just css rather than slower jquery.
+				$('.image').each(function(){
+					var height = $(this).attr('data-height');
+					var width = $(this).attr('data-width'); //grab the actual dimensions from the html
+					$(this).css({'width':width*zoomLevel,'height':height*zoomLevel});
+				})
+			}
+
+			$(document).ready(function(){
+				updateZoom(1);
+				var h;
+				var w; //temp variables for saving dimensions of currently dragged image.
+				$('#image').css('top',$('#topbin').css('height'));
+				$('.image:not(#image').draggable({ //this is to shrink the image when you drag it (so it fits in the #topbin) and re-embiggen it when you put it down
+					start:function(event,ui){
+						h = $(this).css('height');
+						w = $(this).css('width'); //save the dimensions it started at.
+						$(this).data('place', {'top':$(this).css('top'),'left':$(this).css('left')}); //save original location
+						$(this).css({'height':'200px','width':'200px','z-index':'999'}); //z-index higher than #topbin so it goes over the #topbin when you drag it
+					},
+					stop:function(event,ui){
+						$(this).css({'height':h,'width':w,'z-index':'980'}) //z-index lower than #topbin so it goes under the #topbin when you scroll past it
+					},
+					revert:'invalid'
+				});
+				$('.boxes').droppable({
+					drop: function(event, ui) {
+						var id = $(ui.draggable).attr('id');
+						var thing = $(ui.draggable).css('background-image').slice(4,-1); //cuts out the url() parentheses
+						var text = $('#bigcounter').text();
+						var score = Number(text.charAt(0)) + 1;
+						var text = "#" + id + "-";
+						if($(this).attr('id').slice(0,-1) === id){ //if dropped to correct box
+							$(this).empty().append("<img src='" + thing + "'/>"); //add the image as a nice new not-draggable image in the box
+							$(ui.draggable).remove(); //get rid of draggable version, its not needed anymore
+							$(this).css('border','2px dashed green')
+							if(score === 7){
+								$('#bigcounter').css('color','green');
+							}
+							$('#bigcounter').empty().append(score.toString() + "/7");
+							//change the color of text that matches the description.
+						}
+						else{
+							$(ui.draggable).animate({'top':$(ui.draggable).data('place').top,'left':$(ui.draggable).data('place').left});
+						}
+						
+					}
+				});
+			});
+			window.onresize = function(){
+				$('#image').css('top',$('#topbin').css('height'));
+			}
+		// ]]>
+		</script>
+		<style>
+			<!--
+			#kimono{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/kimono.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:59.5%;
+				top:20.8%;
+			}
+			#kimono:hover{
+				background-image:url('https://files.edx.org/vjx/drag/kimonoh.png');
+			}
+			#hakama{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/hakama.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:23.2%;
+				top:61.64%;
+			}
+			#hakama:hover{
+				background-image:url('https://files.edx.org/vjx/drag/hakamah.png');
+			}
+			#police{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/police.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:17.4%;
+				top:10.5%;
+			}
+			#police:hover{
+				background-image:url('https://files.edx.org/vjx/drag/policeh.png');
+			}
+			#rickshaw{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/rickshaw.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:70.2%;
+				top:40.8%;
+			}
+			#rickshaw:hover{
+				background-image:url('https://files.edx.org/vjx/drag/rickshawh.png');
+			}
+			#summer{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/summer.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:48.5%;
+				top:38.5%;
+			}
+			#summer:hover{
+				background-image:url('https://files.edx.org/vjx/drag/summerh.png');
+			}
+			#western{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/western.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:26.2%;
+				top:42.9%;
+			}
+			#western:hover{
+				background-image:url('https://files.edx.org/vjx/drag/westernh.png');
+			}
+			#professional{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/professional.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:4.9%;
+				top:67.1%;
+			}
+			#professional:hover{
+				background-image:url('https://files.edx.org/vjx/drag/professionalh.png');
+			}
+			#topbin{
+				position:fixed;
+				height:auto;
+				width:100%;
+				top:0px;
+				left:0px;
+				background-color:white;
+				z-index:990;
+				border-bottom:3px solid black;
+			}
+			#instructions{
+				position:relative;
+				display:inline-block;
+				font-family:'open sans';
+				font-size:14px;
+				width:190px;
+				height:100px;
+				float:left;
+				margin:0px 0px 0px 10px;
+			}
+			.boxes{
+				height:120px;
+				width:120px;
+				border:2px dashed gray;
+				margin:5px 5px 5px 5px;
+				padding:10px 10px 10px 10px;
+				display:inline-block;
+				float:left;
+				font-family:'open sans';
+			}
+			#image{
+				background-image:url('https://files.edx.org/vjx/drag/trg021_pg21_18Sept1905.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				position:absolute;
+				top:400px;
+				width:2000px;
+				height:3003px;
+			}
+			#bigcounter{
+				font-size:120px;
+				line-height:100px;
+			}
+			#zoombox{
+				position:relative;
+				display:inline-block;
+				float:left;
+			}
+			-->
+		</style>
+	</head>
+	<body>
+		<div id='topbin'>
+			<p id="instructions">
+				Find the people who match the boxed descriptions and drag the images into the proper boxes. Use the bar to the right to zoom.
+				<span id='bigcounter'>0/7</span>
+			</p>
+			<div id='zoombox' style="display:inline-block; width:20px; height:193px; padding-top:7px">
+				<img src='https://files.edx.org/vjx/plus.png'/>
+				<input type="range" id="zoom" min='0' max='2' step='.01' orient="vertical" style="width: 20px; height: 135px; -webkit-appearance: slider-vertical; writing-mode: bt-lr;" onchange='updateZoom(value)'>
+				<img src='https://files.edx.org/vjx/minus.png'/>
+			</div>
+			<div class='boxes' id='hakama-'>Schoolgirl dressed in a hakama skirt and blouse</div>
+			<div class='boxes' id='summer-'>Man in Japanese summer kimono</div>
+			<div class='boxes' id='professional-'>Well-educated, professional man</div>
+			<div class='boxes' id='kimono-'>A woman in kimono and coiffed hair</div>
+			<div class='boxes' id='police-'>Policemen in uniform, chasing the crowd</div>
+			<div class='boxes' id='rickshaw-'>A manual laborer or rickshaw puller in loincloth and shirt</div>
+			<div class='boxes' id='western-'>Man in western trousers and shirt</div>
+		</div>
+		<div id='images'>
+			<div class='image' id="image" data-height='1502' data-width='1000'>
+				<div class='image' id="kimono" data-height='148' data-width='170'></div>
+				<div class='image' id="hakama" data-height='267' data-width='235'></div>
+				<div class='image' id="police" data-height='230' data-width='225'></div>
+				<div class='image' id="professional" data-height='296' data-width='302'></div>
+				<div class='image' id="rickshaw" data-height='212' data-width='153'></div>
+				<div class='image' id="summer" data-height='311' data-width='127'></div>
+				<div class='image' id="western" data-height='321' data-width='142'></div>
+			</div>
+			<!--HTML5 supports extra tags so long as they start with "data." These end up in the JS so it knows what size these are normally-->
+		</div>
+	</body>
+</html>

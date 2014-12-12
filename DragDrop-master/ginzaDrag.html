@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<hmtl>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+		<script>// <![CDATA[
+			function updateZoom(zoomLevel){ //master zoom for the page, affects everything. All images are divs with background-image. It makes the hover highlight possible with just css rather than slower jquery.
+				$('.image').each(function(){
+					var height = $(this).attr('data-height');
+					var width = $(this).attr('data-width'); //grab the actual dimensions from the html
+					$(this).css({'width':width*zoomLevel,'height':height*zoomLevel});
+				})
+			}
+
+			$(document).ready(function(){
+				updateZoom(1);
+				var h;
+				var w; //temp variables for saving dimensions of currently dragged image.
+				$('#image').css('top',$('#topbin').css('height'));
+				$('.image:not(#image').draggable({ //this is to shrink the image when you drag it (so it fits in the #topbin) and re-embiggen it when you put it down
+					start:function(event,ui){
+						h = $(this).css('height');
+						w = $(this).css('width'); //save the dimensions it started at.
+						$(this).data('place', {'top':$(this).css('top'),'left':$(this).css('left')}); //save original location
+						$(this).css({'height':'200px','width':'200px','z-index':'999'}); //z-index higher than #topbin so it goes over the #topbin when you drag it
+					},
+					stop:function(event,ui){
+						$(this).css({'height':h,'width':w,'z-index':'980'}) //z-index lower than #topbin so it goes under the #topbin when you scroll past it
+					},
+					revert:'invalid'
+				});
+				$('#boxes > div').droppable({
+					drop: function(event, ui) {
+						var id = $(ui.draggable).attr('id');
+						var thing = $(ui.draggable).css('background-image').slice(4,-1); //cuts out the url() parentheses
+						var text = $('#bigcounter').text();
+						var score = Number(text.charAt(0)) + 1;
+						var text = "#" + id + "-";
+						if($(this).attr('id').slice(0,-1) === id){ //if dropped to correct box
+							$(this).empty().append("<img src='" + thing + "'/>"); //add the image as a nice new not-draggable image in the box
+							$(ui.draggable).remove(); //get rid of draggable version, its not needed anymore
+							$(this).css('border','2px dashed green')
+							if(score === 9){
+								$('#bigcounter').css('color','green');
+							}
+							$('#bigcounter').empty().append(score.toString() + "/9");
+							//change the color of text that matches the description.
+						}
+						else{
+							$(ui.draggable).animate({'top':$(ui.draggable).data('place').top,'left':$(ui.draggable).data('place').left});
+						}
+						
+					}
+				});
+			});
+			window.onresize = function(){
+				$('#image').css('top',$('#topbin').css('height'));
+			}
+		// ]]>
+		</script>
+		<style>
+			<!--
+			#pamphletAuto{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletAuto.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:29.9%;
+				top:64.7%;
+			}
+			.image:not(#image):hover{
+				border:1px solid #f3f315;
+			}
+			#pamphletBus{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletBus.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:0%;
+				top:60.7%;
+			}
+			#pamphletNationalFlag{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletFlag.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:23.4%;
+				top:22.7%;
+			}
+			#pamphletPalmTree{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletPalmTree.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:4.6%;
+				top:43.5%;
+			}
+			#pamphletPoliceBox{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletPoliceBox.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:47.5%;
+				top:62.6%;
+			}
+			#pamphletShop{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletShop.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:73.8%;
+				top:58%;
+			}
+			#pamphletTramLines{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletTramLines.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:.4%;
+				top:75%;
+			}
+			#pamphletWesternName{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletWesternName.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:69.6%;
+				top:26%;
+			}
+			#pamphletStreetLamp{
+				position:absolute;
+				background-image:url('https://files.edx.org/vjx/drag/pamphletStreetLamp.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:25%;
+				top:52.3%;
+			}
+			#topbin{
+				position:fixed;
+				height:auto;
+				width:100%;
+				top:0px;
+				left:0px;
+				background-color:white;
+				z-index:990;
+				border-bottom:3px solid black;
+			}
+			#instructions{
+				position:relative;
+				display:inline-block;
+				font-family:'open sans';
+				font-size:14px;
+				width:190px;
+				height:100px;
+				float:left;
+				margin:0px 0px 0px 10px;
+			}
+			#boxes{
+				height:200px;
+				padding-left:10px;
+			}
+			#boxes > div{
+				height:120px;
+				width:120px;
+				border:2px dashed gray;
+				margin:5px 5px 5px 5px;
+				padding:10px 10px 10px 10px;
+				display:inline-block;
+				float:left;
+				font-family:'open sans';
+			}
+			#boxes > div > img{
+				position:relative;
+				max-height:120px;
+				max-width:120px;
+			}
+			#image{
+				background-image:url('https://files.edx.org/vjx/drag/sh04_1928_002_pamphlet.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				position:absolute;
+				top:200px;
+				width:388px;
+				height:562px;
+			}
+			#bigcounter{
+				font-size:120px;
+				line-height:100px;
+			}
+			#zoombox{
+				position:relative;
+				display:inline-block;
+				float:left;
+			}
+			-->
+		</style>
+	</head>
+	<body>
+		<div id='topbin'>
+			<p id="instructions">
+				Find the people who match the boxed descriptions and drag the images into the proper boxes. Use the bar to the right to zoom.
+				<span id='bigcounter'>0/9</span>
+			</p>
+			<div id='zoombox' style="display:inline-block; width:20px; height:193px; padding-top:7px">
+				<img src='https://files.edx.org/vjx/plus.png'/>
+				<input type="range" id="zoom" min='0' max='2' step='.01' orient="vertical" style="width: 20px; height: 135px; -webkit-appearance: slider-vertical; writing-mode: bt-lr;" onchange='updateZoom(value)'>
+				<img src='https://files.edx.org/vjx/minus.png'/>
+			</div>
+			<div id='boxes'>
+				<div id='pamphletAuto-'>An automobile</div>
+				<div id='pamphletBus-'>A motorized bus</div>
+				<div id='pamphletNationalFlag-'>National flag</div>
+				<div id='pamphletPalmTree-'>Palm trees, lending an exotic air to Shiseido</div>
+				<div id='pamphletPoliceBox-'>Police box</div>
+				<div id='pamphletShop-'>Shop window and window shoppers</div>
+				<div id='pamphletStreetLamp-'>Modern street lighting</div>
+				<div id='pamphletTramLines-'>Tram lines</div>
+				<div id='pamphletWesternName-'>Western company name</div>
+			</div>
+		</div>
+		<div id='images'>
+			<div class='image' id="image" data-height='388' data-width='562'>
+				<div class='image' id="pamphletAuto" data-height='35' data-width='68'></div>
+				<div class='image' id="pamphletBus" data-height='50' data-width='61'></div>
+				<div class='image' id="pamphletNationalFlag" data-height='60' data-width='35'></div>
+				<div class='image' id="pamphletPalmTree" data-height='40' data-width='49'></div>
+				<div class='image' id="pamphletPoliceBox" data-height='30' data-width='18'></div>
+				<div class='image' id="pamphletShop" data-height='50' data-width='48'></div>
+				<div class='image' id="pamphletStreetLamp" data-height='75' data-width='23'></div>
+				<div class='image' id="pamphletTramLines" data-height='32' data-width='559'></div>
+				<div class='image' id="pamphletWesternName" data-height='50' data-width='106'></div>
+			</div>
+			<!--HTML5 supports extra tags so long as they start with "data." These end up in the JS so it knows what size these are normally-->
+		</div>
+	</body>
+</html>

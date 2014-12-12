@@ -1,0 +1,191 @@
+#vjxZoomIcon{
+	position:absolute;
+	margin:5px 5px 5px 5px;
+	left:0px;
+	top:0px;
+}
+.vjxDrag{
+	position:relative;
+	display:inline-block;
+	float:left;
+	max-width:200px;
+	max-height:200px;
+	margin:5px 5px 5px 5px;
+	z-index:1;
+}
+.vjxSet{
+	position:relative;
+	display:inline-block;
+	float:left;
+	max-width:200px;
+	max-height:200px;
+	margin:5px 5px 5px 5px;
+	z-index:1;
+}
+#vjxDragbox{
+	position:absolute;
+	right:0px;
+	width:220px;
+	height:auto;
+}
+#vjxDropbox{
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+#vjxOverlay{
+	position:fixed;
+	width:100%;
+	height:100%;
+	background:url('https://files.edx.org/vjx/overlay.png') repeat;
+	top:0;
+	left:0;
+	z-index:999;
+}
+#vjxImage{
+	display:block;
+	margin:auto;
+	max-width:88%;
+	max-height:100%;
+	overflow:auto;
+}
+#vjxImage > img{
+	display:block;
+	margin:auto;
+}
+#vjxLeft{
+	position:absolute;
+	display:block;
+	top:45%;
+	left:10px;
+	width:60px;
+	height:auto;
+	cursor:pointer;
+}
+#vjxRight{
+	position:absolute;
+	display:block;
+	top:45%;
+	right:10px;
+	width:60px;
+	height:auto;
+	cursor:pointer;
+}
+#vjxClose{
+	position:absolute;
+	top:5px;
+	right:5px;
+	margin:0px 0px 0px 0px;
+	color:white;
+	font-family:'open sans';
+	cursor:pointer;
+}
+#zoombox{
+	position:absolute;
+	top:55px;
+	right:20px;
+}
+#vjxTimeline{
+	background:url('https://files.edx.org/vjx/timeline1.png') no-repeat;
+	width: 100%;
+	height: 100%;
+	position:absolute;
+}
+.vjxdrop{
+	width:200px;
+	height:200px;
+	border:2px dashed gray;
+	position:absolute;
+}
+.vjxdrop > img{
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	margin:auto;
+}
+.vjxdrop p{
+	position:absolute;
+	font-family:'open sans';
+	z-index:0;
+	padding: 5px 5px 5px 5px;
+}
+#data1{
+	position:absolute;
+	top:-12px;
+	left:255px;
+	width:250px;
+	font-family:'open sans';
+}
+#drop7{
+	top:5px;
+	left:10px;
+}
+#data2{
+	position:absolute;
+	top:83px;
+	left:255px;
+	width:250px;
+	font-family:'open sans';
+}
+#drop2{
+	top:175px;
+	left:262px;
+}
+#drop4{
+	top:220px;
+	left:10px;
+}
+#drop3{
+	top:390px;
+	left:262px;
+}
+#drop1{
+	top:435px;
+	left:10px;
+}
+#data3{
+	position:absolute;
+	top:590px;
+	left:255px;
+	width:250px;
+	font-family:'open sans';
+}
+#data4{
+	position:absolute;
+	top:634px;
+	left:17px;
+	width:200px;
+	text-align:right;
+	font-family:'open sans';
+}
+#drop5{
+	top:700px;
+	left:10px;
+}
+#drop6{
+	top:700px;
+	left:262px;
+}
+#data5{
+	position:absolute;
+	top:895px;
+	left:255px;
+	width:250px;
+	font-family:'open sans';
+}
+#timeline{
+	position:absolute;
+	left:235px;
+	width:5px;
+	height:920px;
+	background-color:red;
+}
+.dot{
+	background-color:red;
+	width:19px;
+	height:19px;
+	border-radius:50%;
+	position:absolute;
+}

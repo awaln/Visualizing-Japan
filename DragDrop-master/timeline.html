@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<hmtl>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+		<script>
+		// <![CDATA[
+		var vjxPage; //to have as a global variable for the current picture in the album.
+		function openAlbum(div){ //input is a jQuery object of the div we care about. Treat div like $('.vjxDrag') instance, no new $ required.
+			$('#vjxOverlay').remove();
+			vjxPage = div;
+			$('#vjxDragbox').append("<div id='vjxOverlay'><div id='vjxImage'><img src='" + div.children('.vjxThumb').attr('src').slice(0,-8) + ".jpg' style='max-width:100%; max-height:100%'/></div><img id='vjxLeft' onclick='turnPage(-1)' src='https://files.edx.org/vjx/left.png'/><img id='vjxRight' onclick='turnPage(1)' src='https://files.edx.org/vjx/right.png'/><p id='vjxClose' onclick='closeAlbum()'>[X] Click <br>to Close</p><div id='zoombox' style='display:inline-block; width:2%; height:35%'><img src='https://files.edx.org/vjx/plusw.png'/><input type='range' id='zoom' min='0' max='2' step='.01' orient='vertical' style='width: 100%; height: 75%; -webkit-appearance: slider-vertical; writing-mode: bt-lr;' onchange='updateZoom(value)'><img src='https://files.edx.org/vjx/minusw.png'/></div></div>"); //create the overlay. This is made to cover the avaliable space, and fixed so scrolling is ineffectual.
+			//makes use of turnPage(change this value), closeAlbum(), updateZoom.
+			$('#vjxImage > img').load(function(){
+				$(this).attr('data-width',$(this).width());
+				$(this).attr('data-height',$(this).height()); //grab original dimensions for zoom later
+				$(this).css({'height':$(this).attr('data-height'), 'width':$(this).attr('data-width'), 'max-height':'','max-width':''});
+				updateZoom(1);
+			});
+		}
+
+		function turnPage(direction){
+			//left calls this with -1, right calls it with +1
+			var index = vjxPage.prevAll('.vjxDrag').length + 1; //which child it is. (starting with 1, not 0)
+			index += direction //index of new div we want
+			var limit = $('.vjxDrag').length //how long the list could possibly be
+			if(index <= 0){
+				index = limit; //wrap around to the end
+			}
+			else if(index > limit){
+				index = 1; //go back to the front
+			}
+			openAlbum($('.vjxDrag:nth-of-type(' + index + ')'));
+		}
+
+		function closeAlbum(){
+			$('#vjxOverlay').remove();
+		}
+
+		function updateZoom(zoomLevel){ //master zoom for the page, affects everything. All images are divs with background-image. It makes the hover highlight possible with just css rather than slower jquery.
+			var height = $('#vjxImage > img').attr('data-height');
+			var width = $('#vjxImage > img').attr('data-width'); //grab the actual dimensions from the html
+			$('#vjxImage > img').css({'width':width*zoomLevel,'height':height*zoomLevel});
+		}
+
+		$(document).ready(function(){
+			var images = ['trg004_pg4_18Sept1905.jpg', 'trg007_pg7_18Sept1905.jpg', 'trg009_pg9_18Sept1905.jpg', 'trg013_pg13_18Sept1905.jpg', 'trg015_pg15_18Sept1905.jpg', 'trg018_pg18_18Sept1905.jpg', 'trg028_pg28_18Sept1905.jpg']; //list of images to be used as draggables. No flavor text for assessments, 1:1 pictures to list size.
+			var counter = 1;
+			for(i=0;i<images.length;i++){ //append to vjxDrag as img inside div, not draggable yet
+				$('#vjxDragbox').append("<div class='vjxDrag' id='drag" + counter + "'><img class='vjxThumb' src='https://files.edx.org/vjx/trg/" + images[i].slice(0,-4) + "_200.jpg'/></div>"); //src changes folder based on images.
+				counter++;
+			}
+			$('.vjxDrag').hover(function(){ //on mousein
+				$(this).append("<img id='vjxZoomIcon' src='https://files.edx.org/vjx/vjxIconZoom.png'/>");
+				$('#vjxZoomIcon').hover(function(){ //on mousein
+					$(this).animate({'width':'57px','height':'57px'},200);
+					$(this).click(function(){ //on zoom button click
+						openAlbum($(this).parent());
+					});
+				}, function(){ //on mouseout
+					$(this).animate({'width':'52px','height':'52px'},200);
+				});
+			}, function(){ //on mouseout
+				$('#vjxZoomIcon').remove();
+			});
+			$('.vjxDrag').draggable({ //this is to shrink the image when you drag it (so it fits in the #topbin) and re-embiggen it when you put it down
+				containment:'document',
+				revert:true,
+				start:function(event,ui){
+					$('#vjxZoomIcon').remove();
+				}
+			});
+			$('.vjxdrop').droppable({
+				drop:function(event,ui){
+					if($(ui.draggable).attr('id').slice(-1) === $(this).attr('id').slice(-1)){ //if the drop and the image match, move the image and get rid of the drag property. Had to get rid of the words too since they won't hide underneath properly *mumblegrumble*
+						$(this).append("<img src='" + $(ui.draggable).children('.vjxThumb').attr('src') + "'/>");
+						$(ui.draggable).remove();
+						$(this).children('p').remove();
+					}
+					else{
+						$(ui.draggable).css({'height':$(ui.draggable).css('height'),'width':$(ui.draggable).css('width'),})
+					}
+				}
+			});
+		});
+		// ]]>
+		</script>
+		<style>
+		<!--
+#vjxZoomIcon{
+	position:absolute;
+	margin:5px 5px 5px 5px;
+	left:0px;
+	top:0px;
+}
+.vjxDrag{
+	position:relative;
+	display:inline-block;
+	float:left;
+	max-width:200px;
+	max-height:200px;
+	margin:5px 5px 5px 5px;
+	z-index:1;
+}
+.vjxSet{
+	position:relative;
+	display:inline-block;
+	float:left;
+	max-width:200px;
+	max-height:200px;
+	margin:5px 5px 5px 5px;
+	z-index:1;
+}
+#vjxDragbox{
+	display:inline-block;
+	float:left;
+	width:100%;
+}
+#vjxDropbox{
+	display:inline-block;
+	float:left;
+	width:100%;
+}
+#vjxOverlay{
+	position:fixed;
+	width:100%;
+	height:100%;
+	background:url('https://files.edx.org/vjx/overlay.png') repeat;
+	top:0;
+	left:0;
+	z-index:999;
+}
+#vjxImage{
+	display:block;
+	margin:auto;
+	max-width:88%;
+	max-height:100%;
+	overflow:auto;
+}
+#vjxImage > img{
+	display:block;
+	margin:auto;
+}
+#vjxLeft{
+	position:absolute;
+	display:block;
+	top:45%;
+	left:10px;
+	width:60px;
+	height:auto;
+	cursor:pointer;
+}
+#vjxRight{
+	position:absolute;
+	display:block;
+	top:45%;
+	right:10px;
+	width:60px;
+	height:auto;
+	cursor:pointer;
+}
+#vjxClose{
+	position:absolute;
+	top:5px;
+	right:5px;
+	margin:0px 0px 0px 0px;
+	color:white;
+	font-family:'open sans';
+	cursor:pointer;
+}
+#zoombox{
+	position:absolute;
+	top:55px;
+	right:20px;
+}
+#vjxTimeline{
+	background:url('timeline1.png') no-repeat;
+	width: 100%;
+	height: 100%;
+	position:absolute;
+}
+.vjxdrop{
+	width:140px;
+	height:200px;
+	border:2px dashed gray;
+	position:absolute;
+}
+.vjxdrop p{
+	position:absolute;
+	font-family:'open sans';
+	z-index:0;
+	padding: 5px 5px 5px 5px;
+}
+#drop7{
+	top:3px;
+	left:40px;
+}
+#drop2{
+	top:250px;
+	left:40px;
+	border-right:none;
+}
+#drop4{
+	top:250px;
+	left:180px;
+	border-left:2px dotted gray;
+}
+#drop3{
+	top:3px;
+	left:250px;
+}
+#drop1{
+	top:250px;
+	left:335px;
+}
+#drop5{
+	top:3px;
+	left:455px;
+}
+#drop6{
+	top:250px;
+	left:490px;
+}
+		-->
+		</style>
+	</head>
+	<body>
+		<div id='vjxDragbox'> <!-- Float draggable div's with zoom and album click-through here. -->
+		</div>
+		<div id='vjxDropbox'> <!-- Drag to locations in here. -->
+			<div id='vjxTimeline'>
+				<div id='drop7' class='vjxdrop'>
+					<p><strong>4 September:</strong><br>The public is called to a people's rally.
+					</p>
+				</div>
+				<div id='drop2' class='vjxdrop'>
+					<p><strong>5 September, Noon:</strong><br>The crowd breaks past police into Hibiya Park.
+					</p>
+				</div>
+				<div id='drop4' class='vjxdrop'>
+					<p><strong>5 September, Noon:</strong><br>Politicians address the crowd at Hibiya, and elsewhere in the city.
+					</p>
+				</div>
+				<div id='drop3' class='vjxdrop'>
+					<p><strong>5 September, Afternoon:</strong><br>The crowd attacks the Home Minister's residence.
+					</p>
+				</div>
+				<div id='drop1' class='vjxdrop'>
+					<p><strong>5 September, Evening:</strong><br>The crowd attacks police stations and policeboxes.
+					</p>
+				</div>
+				<div id='drop5' class='vjxdrop'>
+					<p><strong>6 September, Afternoon:</strong><br>The crowd attacks streetcars and the streetcar company offices.
+					</p>
+				</div>
+				<div id='drop6' class='vjxdrop'>
+					<p><strong>6 September, Evening:</strong><br>The governmnet declares martial law. Order is slowly restored on 7 September.
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

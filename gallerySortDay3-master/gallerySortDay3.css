@@ -1,0 +1,133 @@
+/*//this gallery sort is actually for the second database sorting exercise. It happened to be the one I did first. Sorry for the confusion.*/
+/*I made the labels work through a fair bit of z-indexing (sets priority of what gets to overlap what). Careful if you have to change them!*/
+<!--
+.vjxContainer, #display{
+	display:inline-block;
+	width:230px;
+	height:200px;
+	margin:5px 5px 5px 5px;
+	border-radius:5px;
+	position:relative;
+	font-family:'open sans';
+	vertical-align:top;
+}
+
+
+.vjxContainer > img{
+	position:relative;
+	z-index:100;
+	margin-right:30px;
+	float:right;
+}
+
+#lightbox {
+    position:fixed;
+    width:100%;
+    height:600px;
+    background:url('https://files.edx.org/vjx/overlay.png') repeat;
+    font-family:'open sans';
+    text-align:center;
+	font-weight:bold;
+	color:white;
+	top:5px;
+	z-index:999;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
+}
+
+#lightbox img{
+	position:absolute;
+	max-width:93%;
+	max-height:93%;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+}
+
+#overlay{
+	background-image:url('https://files.edx.org/vjx/overlayLite.png');
+	position:absolute;
+	width:200px;
+	height:200px;
+	z-index:900;
+	border-radius:5px;
+	left:0px;
+}
+
+#zoomblock{
+	float:left;
+	width:48px;
+	height:48px;
+	left:0px;
+	cursor:pointer;
+	overflow:visible;
+}
+
+#zoomblock img{
+	height: 48px;
+	width: 48px;
+}
+
+#blushtag, #eyetag, #curvetag, #camtag, #rectag, .blushtag, .eyetag, .curvetag, .camtag, .rectag{
+	position:absolute;
+	left:62px;
+	width:130px;
+	font-family:'open sans';
+	font-size:16px;
+	font-weight:bold;
+	text-align:right;
+	color:white;
+	border-radius:5px;
+	padding-right:5px;
+	padding-top:5px;
+}
+
+#blushtag, .blushtag{
+	top:4px;
+	height:30px;
+	background-color:#FFAD33;
+	cursor:pointer;
+}
+
+#eyetag, .eyetag{
+	top:43px;
+	height:30px;
+	background-color:#8AE65C;
+	cursor:pointer;
+}
+
+#curvetag, .curvetag{
+	top:82px;
+	height: 30px;
+	background-color:#47D1FF;
+	cursor:pointer;
+}
+
+#camtag, .camtag{
+	top:121px;
+	height:30px;
+	background-color:#8833ff;
+	cursor:pointer;
+}
+
+#rectag, .rectag{
+	top:160px;
+	height:30px;
+	background-color:#E271C6;
+	cursor:pointer;
+}
+
+#vjxMain{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+-->

@@ -1,0 +1,113 @@
+/*//this gallery sort is actually for the second database sorting exercise. It happened to be the one I did first. Sorry for the confusion.*/
+/*I made the labels work through a fair bit of z-indexing (sets priority of what gets to overlap what). Careful if you have to change them!*/
+.vjxContainer, #display{
+	display:inline-block;
+	width:230px;
+	height:150px;
+	margin:5px 5px 5px 5px;
+	border-radius:5px;
+	position:relative;
+	font-family:'open sans';
+	vertical-align:top;
+}
+
+
+.vjxContainer img{
+	position:relative;
+	width:200px;
+	height:100%;
+	z-index:100;
+}
+
+#lightbox {
+    position:fixed;
+    width:640px;
+    height:480px;
+    background:url('https://files.edx.org/vjx/overlay.png') repeat;
+    font-family:'open sans';
+    text-align:center;
+	font-weight:bold;
+	color:white;
+	top:5px;
+	z-index:999;
+}
+
+#lightbox img{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+}
+
+#overlay{
+	background-image:url('https://files.edx.org/vjx/overlayLite.png');
+	position:absolute;
+	width:200px;
+	height:150px;
+	z-index:900;
+}
+
+#zoomblock{
+	float:left;
+	width:48px;
+	height:48px;
+	cursor:pointer;
+	overflow:visible;
+}
+
+#zoomblock img{
+	height: 48px;
+	width: 48px;
+}
+
+#modtag, #tradtag, #hometag, #cinetag, .modtag, .tradtag, .hometag, .cinetag{
+	position:absolute;
+	left:52px;
+	width:140px;
+	font-family:'open sans';
+	font-size:16px;
+	font-weight:bold;
+	text-align:right;
+	color:white;
+	border-radius:5px;
+	padding-right:5px;
+}
+
+#modtag, .modtag{
+	top:4px;
+	height:22px;
+	background-color:#FFAD33;
+	cursor:pointer;
+}
+
+#tradtag, .tradtag{
+	top:29px;
+	height:45px;
+	background-color:#8AE65C;
+	cursor:pointer;
+}
+
+#hometag, .hometag{
+	top:77px;
+	height:22px;
+	background-color:#47D1FF;
+	cursor:pointer;
+}
+
+#cinetag, .cinetag{
+	top:102px;
+	height:45px;
+	background-color:#E271C6;
+	cursor:pointer;
+}
+
+#vjxMain{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}

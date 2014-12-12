@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script>// <![CDATA[
+			var data = ['trg000_cover_18Sept1905.jpg', '', 'trg001_pg1_18Sept1905.jpg', '', 'trg002_pg2_18Sept1905.jpg', '', 'trg003_pg3_18Sept1905.jpg', '', 'trg004_pg4_18Sept1905.jpg', '', 'trg005_pg5_18Sept1905.jpg', '', 'trg006_pg6_18Sept1905.jpg', '', 'trg007_pg7_18Sept1905.jpg', '', 'trg008_pg8_18Sept1905.jpg', '', 'trg009_pg9_18Sept1905.jpg', '', 'trg010_pg10_18Sept1905.jpg', '', 'trg011_pg11_18Sept1905.jpg', '', 'trg012_pg12_18Sept1905.jpg', '', 'trg013_pg13_18Sept1905.jpg', '', 'trg014_pg14_18Sept1905.jpg', '', 'trg015_pg15_18Sept1905.jpg', '', 'trg016_pg16_18Sept1905.jpg', '', 'trg017_pg17_18Sept1905.jpg', '', 'trg018_pg18_18Sept1905.jpg', '', 'trg019_pg19_18Sept1905.jpg', '', 'trg020_pg20_18Sept1905.jpg', '', 'trg021_pg21_18Sept1905.jpg', '', 'trg022_pg22_18Sept1905.jpg', '', 'trg023_pg23_18Sept1905.jpg', '', 'trg024_pg24_18Sept1905.jpg', '', 'trg025_pg25_18Sept1905.jpg', '', 'trg026_pg26_18Sept1905.jpg', '', 'trg027_pg27_18Sept1905.jpg', '', 'trg028_pg28_18Sept1905.jpg', '', 'trg029_pg29_18Sept1905.jpg', '', 'trg030_pg30_18Sept1905.jpg', '', 'trg031_pg31_18Sept1905.jpg', '', 'trg032_pg32_18Sept1905.jpg', '', 'trg033_pg33_18Sept1905.jpg', '', 'trg034_pg34_18Sept1905.jpg', '', 'trg035_pg35_18Sept1905.jpg', '', 'trg036_pg36_18Sept1905.jpg', '', 'trg037_pg37_18Sept1905.jpg', '', 'trg038_pg38_18Sept1905.jpg', '', 'trg039_pg39_18Sept1905.jpg', '']; //data has image name, then caption if applicable.
+			var captions = false; //set to false if you don't want captions, set to true if you do.
+
+			///After here should stay where it is
+			var bookmark = 0;
+			var sidebarOpen = false; //lets toggleSidebar function know whether it's open or not.
+			for(i=0;i<data.length;i+=2){ //function to add proper urls to everything
+				data[i] = "https://files.edx.org/vjx/trg/" + data[i];
+			}
+
+			function album(data){
+				$('#vjxMain').append("<div id='vjxOverlay'><div id='vjxImage'><img src='" + data[0] + "' style='max-width:100%; max-height:100%'/></div><img id='vjxLeft' onclick='turnPage(-2)' src='https://files.edx.org/vjx/left.png'/><img id='vjxRight' onclick='turnPage(2)' src='https://files.edx.org/vjx/right.png'/><p id='vjxClose' onclick='closeAlbum()'>[X] Click <br>to Close</p><div id='zoombox' style='display:inline-block; width:2%; height:35%'><img src='https://files.edx.org/vjx/plusw.png'/><input type='range' id='zoom' min='0' max='2' step='.01' orient='vertical' style='width: 100%; height: 75%; -webkit-appearance: slider-vertical; writing-mode: bt-lr;' onchange='updateZoom(value)'><img src='https://files.edx.org/vjx/minusw.png'/></div></div>"); //create the overlay. This is made to cover the avaliable space, and fixed so scrolling is ineffectual.
+				if(captions){ //only add sidebar if you want captions
+					$('#vjxOverlay').append("<div id='vjxSidebar'><p id='vjxVert' onclick='toggleSidebar()'><strong>Show Info</strong></p><p id='vjxData'>" 
+						+ data[1] + "</p></div>");
+					//need to make sure the sidebar is properly hidden with tab showing.
+					var right = Number($('#vjxSidebar').css('width').slice(0,-2)) - 40; //width of the sidebar minus the tab that needs to show (negative).
+					$('#vjxSidebar').css('right','-'+right+'px'); //pull it right offscreen by this much
+					var shift = (Number($('#vjxSidebar').css('height').slice(0,-2))-60)/2; //equation gotten by seeing what screen sizes needed what margin for the vertical text to show up right.
+					$('#vjxVert').css('margin-left','' + shift + 'px');
+				}
+				bookmark = 0; //sets the album start on the 0 index of data (first image)
+				toggleSidebar();
+				$('#vjxImage > img').load(function(){
+					$(this).attr('data-width',$(this).width());
+					$(this).attr('data-height',$(this).height()); //grab original dimensions for zoom later
+					$(this).css({'height':$(this).attr('data-height'), 'width':$(this).attr('data-width'), 'max-height':'','max-width':''});
+				});
+			}
+
+			window.onresize = function(){
+				if(captions){
+					if(!sidebarOpen){ //only change the sidebar shift if it's still closed.
+						var right = Number($('#vjxSidebar').css('width').slice(0,-2)) - 40; //width of the sidebar minus the tab that needs to show (negative).
+						$('#vjxSidebar').css('right','-'+right+'px'); //pull it right offscreen by this much
+					}
+					var shift = (Number($('#vjxSidebar').css('height').slice(0,-2))-60)/2; //equation gotten by seeing what screen sizes needed what margin for the vertical text to show up right.
+					$('#vjxVert').css('margin-left','' + shift + 'px');
+				}
+			}
+
+			function closeAlbum(){
+				$('#vjxOverlay').remove();
+			}
+
+			function turnPage(direction){
+				bookmark += direction; //left calls this with -2, right calls it with +2
+				if(bookmark===-2){ //check if we're wrapping around the back of the album
+					bookmark = data.length - 2; //get to last item in data
+				}
+				if(bookmark===80){ //check if we're at the end and wrapping around to the front
+					bookmark = 0; //go back to the first item in data
+				}
+				$('#vjxImage').empty();
+				$('#zoom').val(1);
+				$('#vjxImage').append("<img src='" + data[bookmark] + "' style='max-height:100%; max-width:100%'/>")
+				$('#vjxData').empty().append(data[bookmark+1]);
+				$('#vjxImage > img').load(function(){
+					$(this).attr('data-width',$(this).width());
+					$(this).attr('data-height',$(this).height()); //grab original dimensions for zoom later
+					$(this).css({'height':$(this).attr('data-height'), 'width':$(this).attr('data-width'), 'max-height':'','max-width':''});
+				});
+			}
+
+			function toggleSidebar(){
+				if(sidebarOpen){ //if the sidebar is currently open
+					var right = Number($('#vjxSidebar').css('width').slice(0,-2)) - 40; //width of the sidebar minus the tab that needs to show (negative).
+					$('#vjxSidebar').animate({'right':'-' + right + 'px'},function(){
+						sidebarOpen = false;
+						$('#vjxVert').empty().append('<strong>Show Info</strong>');
+						$('#vjxImage').css('max-height','100%');
+					});
+				}
+				else{ //if the sidebar is closed.
+					$('#vjxSidebar').animate({'right':'0px'},function(){
+						sidebarOpen = true;
+						$('#vjxVert').empty().append('<strong>Hide Info</strong>');
+						$('#vjxImage').css('max-height','70%');
+					});
+				}
+			}
+
+			function updateZoom(zoomLevel){ //master zoom for the page, affects everything. All images are divs with background-image. It makes the hover highlight possible with just css rather than slower jquery.
+				var height = $('#vjxImage > img').attr('data-height');
+				var width = $('#vjxImage > img').attr('data-width'); //grab the actual dimensions from the html
+				console.log(height, width);
+				$('#vjxImage > img').css({'width':width*zoomLevel,'height':height*zoomLevel});
+			}
+			// ]]>
+		</script>
+		<style><!--
+			#vjxMain{
+				font-family:'open sans';
+				font-size:12pt;
+			}
+			#vjxOverlay{
+				position:fixed;
+				width:100%;
+				height:100%;
+				background:url('https://files.edx.org/vjx/overlay.png') repeat;
+				top:0;
+				left:0;
+				z-index:999;
+			}
+			#vjxImage{
+				display:block;
+				margin:auto;
+				max-width:88%;
+				max-height:100%;
+				overflow:auto;
+			}
+			#vjxImage > img{
+				position:relative;
+				display:block;
+				margin:auto;
+			}
+			#vjxLeft{
+				position:absolute;
+				display:block;
+				top:45%;
+				left:10px;
+				width:60px;
+				height:auto;
+				cursor:pointer;
+			}
+			#vjxRight{
+				position:absolute;
+				display:block;
+				top:45%;
+				right:10px;
+				width:60px;
+				height:auto;
+				cursor:pointer;
+			}
+			#vjxClose{
+				position:absolute;
+				top:5px;
+				right:5px;
+				margin:0px 0px 0px 0px;
+				color:white;
+				font-family:'open sans';
+				cursor:pointer;
+			}
+			#vjxSidebar{
+				position:absolute;
+				bottom:0px;
+				width:100%;
+				height:30%;
+				border-bottom-left-radius:10px;
+				border-top-left-radius:10px;
+				background-color:#E2E2E2;
+			}
+			#vjxVert{
+				position:relative;
+				display:inline-block;
+				float:left;
+				height:100%;
+				margin:0px 0px 0px 0px;
+				transform:rotate(270deg);
+				-ms-transform:rotate(270deg); /* IE 9 */
+				-webkit-transform:rotate(270deg); /* Opera, Chrome, and Safari */
+				cursor:pointer;
+			}
+			#vjxData{
+				position:absolute;
+				left:50px;
+				column-count: 3;
+				-webkit-column-count:3;
+				-moz-column-count: 3;
+				-o-column-count: 3;
+				right:40px;
+				height:90%;
+				overflow:auto;
+			}
+			#zoombox{
+				position:absolute;
+				top:55px;
+				right:20px;
+			}
+			-->
+		</style>
+	</head>
+	<body>
+		<div id="vjxMain">
+			<p onclick='album(data)' style="cursor:pointer;"><img src='https://files.edx.org/vjx/book.jpg'/>Click here to view the Tokyo Riot Graphic album.</p>
+		</div>
+	</body>
+</html>

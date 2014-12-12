@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<hmtl>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+<script>// <![CDATA[
+			function updateZoom(zoomLevel){ //master zoom for the page, affects everything. All images are divs with background-image. It makes the hover highlight possible with just css rather than slower jquery.
+				$('.image').each(function(){
+					var height = $(this).attr('data-height');
+					var width = $(this).attr('data-width'); //grab the actual dimensions from the html
+					$(this).css({'width':width*zoomLevel,'height':height*zoomLevel});
+				})
+			}
+
+			$(document).ready(function(){
+				updateZoom(.5);
+				var h;
+				var w; //temp variables for saving dimensions of currently dragged image.
+				$('#image1').draggable({ //this is to shrink the image when you drag it (so it fits in the #topbin) and re-embiggen it when you put it down
+					start:function(event,ui){
+						h = $(this).css('height');
+						w = $(this).css('width'); //save the dimensions it started at.
+						$(this).css({'height':'200px','width':'200px','z-index':'999'}); //z-index higher than #topbin so it goes over the #topbin when you drag it
+					},
+					stop:function(event,ui){
+						$(this).css({'height':h,'width':w,'z-index':'980'}) //z-index lower than #topbin so it goes under the #topbin when you scroll past it
+					}
+				});
+				$('#image2').draggable({ //this is to shrink the image when you drag it (so it fits in the #topbin) and re-embiggen it when you put it down
+					start:function(event,ui){
+						$(this).css({'height':'200px','width':'200px','z-index':'999'}); //z-index higher than #topbin so it goes over the #topbin when you drag it
+					},
+					stop:function(event,ui){
+						$(this).css({'height':'533px','width':'469px','z-index':'980'}) //z-index lower than #topbin so it goes under the #topbin when you scroll past it
+					}
+				});
+				$('#topbin').droppable({
+					drop: function(event, ui) {
+						var id = $(ui.draggable).attr('id');
+						var thing = $(ui.draggable).css('background-image').slice(4,-1); //cuts out the url() parentheses
+						$(this).append("<img src='" + thing + "'/>"); //add the image as a nice new not-draggable image in the #topbin
+						$(ui.draggable).remove(); //get rid of draggable version, its not needed anymore
+						var text = $('#bigcounter').text();
+						var score = Number(text.charAt(0)) + 1;
+						if(score === 2){
+							$('#bigcounter').css('color','green');
+						}
+						$('#bigcounter').empty().append(score.toString() + "/2");
+					}
+				});
+			});
+		// ]]>
+		</script>
+		<style>
+			<!--
+			#image1{
+				position:absolute;
+				background-image:url('https://studio.edx.org/c4x/VJx/VJx/asset/trg1.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:59.5%;
+				top:20.8%;
+				width:339px;
+				height:295px;
+			}
+			#image1:hover{
+				background-image:url('https://studio.edx.org/c4x/VJx/VJx/asset/trg1h.png');
+			}
+			#image2{
+				position:absolute;
+				background-image:url('https://studio.edx.org/c4x/VJx/VJx/asset/trg2.png');
+				background-repeat: no-repeat;
+				background-size:contain;
+				left:23.2%;
+				top:61.64%;
+				width:469px;
+				height:533px;
+			}
+			#image2:hover{
+				background-image:url('https://studio.edx.org/c4x/VJx/VJx/asset/trg2h.png');
+			}
+			#topbin{
+				position:fixed;
+				height:200px;
+				width:100%;
+				top:0px;
+				left:0px;
+				background-color:white;
+				z-index:990;
+			}
+			#topbin > p {
+				position:relative;
+				display:inline-block;
+				width:200px;
+				height:200px;
+				float:left;
+				margin:0px 0px 0px 0px;
+			}
+			#topbin > img{
+				height:190px;
+				margin:5px 5px 5px 5px;
+			}
+			#image{
+				background-image:url('trg021_pg21_18Sept1905.jpg');
+				background-repeat: no-repeat;
+				background-size:contain;
+				position:absolute;
+				top:200px;
+				width:2000px;
+				height:3003px;
+			}
+			#bigcounter{
+				font-size:120px;
+			}
+			-->
+		</style>
+	</head>
+	<body>
+		<div id='topbin'>
+			<p>
+				Demo: Find the two women in the image and drag their images into this top bin. Use the bar to the right to zoom.
+				<span id='bigcounter'>0/2</span>
+			</p>
+			<div style="display:inline-block; width:20px; height:193px; padding-top:7px">
+				<input type="range" id="zoom" min='0' max='1' step='.01' orient="vertical" style="width: 20px; height: 180px; -webkit-appearance: slider-vertical; writing-mode: bt-lr;" onchange='updateZoom(value)'>
+			</div>
+		</div>
+		<div id='images'>
+			<div class='image' id="image" data-height='3003' data-width='2000'>
+				<div class='image' id="image1" data-height='295' data-width='339'></div>
+				<div class='image' id="image2" data-height='533' data-width='469'></div>
+			</div>
+			<!--HTML5 supports extra tags so long as they start with "data." These end up in the JS so it knows what size these are normally-->
+		</div>
+	</body>
+</html>
